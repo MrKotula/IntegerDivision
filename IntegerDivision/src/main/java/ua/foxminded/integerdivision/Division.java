@@ -68,7 +68,18 @@ public class Division {
 
 	private void modifyResultToView(Integer dividend, Integer divisor) {
 		int[] index = new int[3];
-		for (int i = 0, j = 0; i < result.length(); i++) {
+		int i = 0, j =0;
+		while(i < result.length()) {
+			i++;
+			if(result.charAt(i) == '\n') {
+				index[j] = i;
+				j++;
+				if(j == 3) {
+					break;
+				}
+			}
+		}
+		/*for (int i = 0, j = 0; i < result.length(); i++) {
 			if (result.charAt(i) == '\n') {
 				index[j] = i;
 				j++;
@@ -77,7 +88,7 @@ public class Division {
 			if (j == 3) {
 				break;
 			}
-		}
+		}*/
 
 		int tab = calculateDigit(dividend) + 1 - index[0];
 		result.insert(index[2], assemblyString(tab, ' ') + "|" + quotient.toString());
