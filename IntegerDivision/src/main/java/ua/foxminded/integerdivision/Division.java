@@ -3,7 +3,7 @@ package ua.foxminded.integerdivision;
 import static java.lang.Math.abs;
 
 public class Division {
-	
+
 	private StringBuilder result = new StringBuilder();
 	private StringBuilder quotient = new StringBuilder();
 	private StringBuilder reminder = new StringBuilder();
@@ -68,27 +68,18 @@ public class Division {
 
 	private void modifyResultToView(Integer dividend, Integer divisor) {
 		int[] index = new int[3];
-		int i = 0, j =0;
-		while(i < result.length()) {
+		int i = 0;
+		int j = 0;
+		while (i < result.length()) {
 			i++;
-			if(result.charAt(i) == '\n') {
+			if (result.charAt(i) == '\n') {
 				index[j] = i;
 				j++;
-				if(j == 3) {
+				if (j == 3) {
 					break;
 				}
 			}
 		}
-		/*for (int i = 0, j = 0; i < result.length(); i++) {
-			if (result.charAt(i) == '\n') {
-				index[j] = i;
-				j++;
-			}
-
-			if (j == 3) {
-				break;
-			}
-		}*/
 
 		int tab = calculateDigit(dividend) + 1 - index[0];
 		result.insert(index[2], assemblyString(tab, ' ') + "|" + quotient.toString());
