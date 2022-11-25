@@ -1,6 +1,8 @@
 package ua.foxminded.integerdivision;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class DivisionTest {
@@ -15,4 +17,15 @@ class DivisionTest {
 		assertEquals(expected, testObject.division(14789, 20));
 	}
 
+	@Test
+	void checkNullDivisorTest() {
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			testObject.division(14789, 0);
+		});
+	}
+
+	@Test
+	void checkDividendLessDivisorTest() {
+		assertEquals("0/5=0", testObject.division(0, 5));
+	}
 }

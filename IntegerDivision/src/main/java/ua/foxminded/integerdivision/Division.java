@@ -34,7 +34,7 @@ public class Division {
 			if (reminderNumber >= divisor) {
 				mod = reminderNumber % divisor;
 				multiplyResult = reminderNumber / divisor * divisor;
-
+				
 				String lastReminder = String.format("%" + (i + 2) + "s", "_" + reminderNumber.toString());
 				result.append(lastReminder).append("\n");
 
