@@ -3,63 +3,63 @@ package ua.foxminded.integerdivision;
 import static java.lang.Math.abs;
 
 public class Division {
-
-	private StringBuilder result = new StringBuilder();
-	private StringBuilder quotient = new StringBuilder();
-	private StringBuilder reminder = new StringBuilder();
-
+	private static final StringBuilder RESULT = new StringBuilder();
+	private static final StringBuilder QUOTIENT = new StringBuilder();
+	private static final StringBuilder REMINDER = new StringBuilder();
+	private static final StringBuilder NEXT_TERM = new StringBuilder("\n");
+	private static final char NEXT_TERM_CHAR = '\n';
+	
 	public String division(int dividend, int divisor) {
-
 		if (divisor == 0) {
 			throw new IllegalArgumentException("Divisor cannot be 0, division by zero");
 		}
 
-		dividend = abs(dividend);
-		divisor = abs(divisor);
+		int positiveDividend = abs(dividend);
+		int posotiveDivisor = abs(divisor);
 
-		if (dividend < divisor) {
-			return "" + dividend + "/" + divisor + "=0";
+		if (positiveDividend < posotiveDivisor) {
+			return "" + positiveDividend + "/" + posotiveDivisor + "=0";
 		}
 
-		String[] digits = String.valueOf(dividend).split("");
-		Integer reminderNumber;
-		Integer multiplyResult;
-		Integer divisorDigit = calculateDigit(divisor);
-		Integer mod;
+		String[] digits = String.valueOf(positiveDividend).split("");
+		int reminderNumber;
+		int multiplyResult;
+		int divisorDigit = calculateDigit(posotiveDivisor);
+		int modularFunction;
 
 		for (int i = 0; i < digits.length; i++) {
-			reminder.append(digits[i]);
-			reminderNumber = Integer.parseInt(reminder.toString());
+			REMINDER.append(digits[i]);
+			reminderNumber = Integer.parseInt(REMINDER.toString());
 
-			if (reminderNumber >= divisor) {
-				mod = reminderNumber % divisor;
-				multiplyResult = reminderNumber / divisor * divisor;
+			if (reminderNumber >= posotiveDivisor) {
+				modularFunction = reminderNumber % posotiveDivisor;
+				multiplyResult = reminderNumber / posotiveDivisor * posotiveDivisor;
 				
-				String lastReminder = String.format("%" + (i + 2) + "s", "_" + reminderNumber.toString());
-				result.append(lastReminder).append("\n");
+				String lastReminder = String.format("%" + (i + 2) + "s", "_" + reminderNumber);
+				RESULT.append(lastReminder).append(NEXT_TERM);
 
 				String multiply = String.format("%" + (i + 2) + "d", multiplyResult);
-				result.append(multiply).append("\n");
+				RESULT.append(multiply).append(NEXT_TERM);
 
 				Integer tab = lastReminder.length() - calculateDigit(multiplyResult);
-				result.append(makeDivider(reminderNumber, tab)).append("\n");
+				RESULT.append(makeDivider(reminderNumber, tab)).append(NEXT_TERM);
 
-				quotient.append(reminderNumber / divisor);
+				QUOTIENT.append(reminderNumber / posotiveDivisor);
 
-				reminder.replace(0, reminder.length(), mod.toString());
-				reminderNumber = Integer.parseInt(reminder.toString());
+				REMINDER.replace(0, REMINDER.length(), String.valueOf(modularFunction));
+				reminderNumber = Integer.parseInt(REMINDER.toString());
 			} else {
 				if (i >= divisorDigit) {
-					quotient.append(0);
+					QUOTIENT.append(0);
 				}
 			}
 
 			if (i == digits.length - 1) {
-				result.append(String.format("%" + (i + 2) + "s", reminderNumber.toString())).append("\n");
+				RESULT.append(String.format("%" + (i + 2) + "s", reminderNumber)).append(NEXT_TERM);
 			}
 		}
-		modifyResultToView(dividend, divisor);
-		return result.toString();
+		modifyResultToView(positiveDividend, posotiveDivisor);
+		return RESULT.toString();
 	}
 
 	private String makeDivider(Integer reminderNumber, Integer tab) {
@@ -70,9 +70,9 @@ public class Division {
 		int[] index = new int[3];
 		int i = 0;
 		int j = 0;
-		while (i < result.length()) {
+		while (i < RESULT.length()) {
 			i++;
-			if (result.charAt(i) == '\n') {
+			if (RESULT.charAt(i) == NEXT_TERM_CHAR) {
 				index[j] = i;
 				j++;
 				if (j == 3) {
@@ -82,10 +82,10 @@ public class Division {
 		}
 
 		int tab = calculateDigit(dividend) + 1 - index[0];
-		result.insert(index[2], assemblyString(tab, ' ') + "|" + quotient.toString());
-		result.insert(index[1], assemblyString(tab, ' ') + "|" + assemblyString(quotient.length(), '-'));
-		result.insert(index[0], "|" + divisor);
-		result.replace(1, index[0], dividend.toString());
+		RESULT.insert(index[2], assemblyString(tab, ' ') + "|" + QUOTIENT.toString());
+		RESULT.insert(index[1], assemblyString(tab, ' ') + "|" + assemblyString(QUOTIENT.length(), '-'));
+		RESULT.insert(index[0], "|" + divisor);
+		RESULT.replace(1, index[0], dividend.toString());
 	}
 
 	private int calculateDigit(int i) {
@@ -93,10 +93,12 @@ public class Division {
 	}
 
 	private String assemblyString(int numberOfSymbols, char symbol) {
-		StringBuilder string = new StringBuilder();
+		StringBuilder lineSet = new StringBuilder();
+		
 		for (int i = 0; i < numberOfSymbols; i++) {
-			string.append(symbol);
+			lineSet.append(symbol);
 		}
-		return string.toString();
+		
+		return lineSet.toString();
 	}
 }
